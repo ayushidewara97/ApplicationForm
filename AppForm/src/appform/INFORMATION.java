@@ -553,7 +553,7 @@ public class INFORMATION extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-        
+              Doconnect();
              String Id_col = textId.getText();
             int NewId = Integer.parseInt(Id_col);
             String Newname = textName.getText();
