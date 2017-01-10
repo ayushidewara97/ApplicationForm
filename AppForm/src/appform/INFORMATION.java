@@ -21,7 +21,6 @@ public class INFORMATION extends javax.swing.JFrame {
    Statement stmt;
    ResultSet rs;
    int CurRow = 0;
-   int a = 0;
     public INFORMATION() {
         initComponents();
         DoConnect();
@@ -32,8 +31,8 @@ public class INFORMATION extends javax.swing.JFrame {
         String host = "jdbc:derby://localhost:1527/PersonInfo";
         String uName = "Ayushi";
         String uPass = "123";
-        Connection con = DriverManager.getConnection(host, uName, uPass);
-        Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+         con = DriverManager.getConnection(host, uName, uPass);
+         stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
         String sql = "SELECT* FROM INFORMATION";
         rs = stmt.executeQuery(sql);
         
@@ -553,7 +552,7 @@ public class INFORMATION extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelActionPerformed
 
     private void bSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSaveActionPerformed
-              Doconnect();
+             
              String Id_col = textId.getText();
             int NewId = Integer.parseInt(Id_col);
             String Newname = textName.getText();
@@ -593,6 +592,17 @@ public class INFORMATION extends javax.swing.JFrame {
                   textStatus.setText(status);
                   textCity.setText(city);
                   textState.setText(state);
+               
+                bFirst.setEnabled(true);
+                    bLast.setEnabled(true);
+                     bNext.setEnabled(true);
+                    bPrev.setEnabled(true);
+                    bUpdate.setEnabled(true);
+                    bDelete.setEnabled(true);
+                    bNew.setEnabled(true);
+              
+                    bSave.setEnabled(false);
+                    bCancel.setEnabled(false);
                 
             }
         catch(SQLException err){
@@ -601,15 +611,17 @@ public class INFORMATION extends javax.swing.JFrame {
     }//GEN-LAST:event_bSaveActionPerformed
 
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
-        a++;
+         String Sname = tSearch.getText();
         try{
-            String Sname = tSearch.getText();
            
             if(Sname.matches(rs.getString("NAME"))){
-                rs.absolute(CurRow);
-                rs.getRow();
+                
+               CurRow =  rs.getRow();
+               rs.absolute(CurRow);
+               stmt.close();
+               rs.close();
                   Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-                 String sql = "SELECT* FROM INFORMATION WHERE NAME = Sname";
+                 String sql = "SELECT* FROM INFORMATION";
                  rs = stmt.executeQuery(sql); 
                
                  int id_col = rs.getInt("ID");
@@ -628,6 +640,9 @@ public class INFORMATION extends javax.swing.JFrame {
             textState.setText(state);
             
             }
+           else{
+                     JOptionPane.showMessageDialog(INFORMATION.this, "Name Not Found");
+                }
         }
         catch(SQLException err){
             JOptionPane.showMessageDialog(INFORMATION.this, "Invalid Input");
